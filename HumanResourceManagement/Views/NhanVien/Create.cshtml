@@ -1,0 +1,169 @@
+﻿@model HumanResourceManagement.Models.nhanvien
+
+@{
+    ViewBag.Title = "Add Nhan Vien";
+}
+
+<!-- Tiêu đề -->
+<h2 class="text-center text-uppercase text-white p-3 mb-4" style="background: linear-gradient(to right, #4facfe, #00f2fe); border-radius: 5px;">
+    Thêm Nhân Viên
+</h2>
+<!-- Form Nhập Dữ Liệu -->
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container p-4 shadow-lg" style="max-width: 800px; background: #ffffff; border: 1px solid #ddd; border-radius: 8px;">
+
+        <!-- Tên Nhân Viên -->
+        <div class="form-group mb-4">
+            <label class="form-label fw-bold text-dark">Tên Nhân Viên</label>
+            <span class="text-danger">*</span>
+            @Html.TextBoxFor(model => model.TenNhanVien, new { @class = "form-control border rounded", placeholder = "Nhập tên nhân viên" })
+        </div>
+
+        <!-- Ngày Sinh -->
+        <div class="form-group mb-4">
+            <label class="form-label fw-bold text-dark">Ngày Sinh</label>
+            <span class="text-danger">*</span>
+            @Html.TextBoxFor(model => model.NgaySinh, "{0:yyyy-MM-dd}", new { @class = "form-control border rounded", type = "date" })
+        </div>
+
+        <!-- Giới Tính -->
+        <div class="form-group mb-4">
+            <label class="form-label fw-bold text-dark">Giới Tính</label>
+            <span class="text-danger">*</span>
+            <div class="d-flex">
+                <div class="form-check me-4">
+                    @Html.RadioButtonFor(model => model.GioiTinh, "Nam", new { @class = "form-check-input" })
+                    <label class="form-check-label">Nam</label>
+                </div>
+                <div class="form-check">
+                    @Html.RadioButtonFor(model => model.GioiTinh, "Nữ", new { @class = "form-check-input" })
+                    <label class="form-check-label">Nữ</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Địa Chỉ -->
+        <div class="form-group mb-4">
+            <label class="form-label fw-bold text-dark">Địa Chỉ</label>
+            @Html.TextBoxFor(model => model.DiaChi, new { @class = "form-control border rounded", placeholder = "Nhập địa chỉ" })
+        </div>
+
+        <!-- Số Điện Thoại -->
+        <div class="form-group mb-4">
+            <label class="form-label fw-bold text-dark">Số Điện Thoại</label>
+            @Html.TextBoxFor(model => model.SDT, new { @class = "form-control border rounded", placeholder = "Nhập số điện thoại" })
+        </div>
+
+        <!-- Email -->
+        <div class="form-group mb-4">
+            <label class="form-label fw-bold text-dark">Email</label>
+            <span class="text-danger">*</span>
+            @Html.TextBoxFor(model => model.Email, new { @class = "form-control border rounded", placeholder = "Nhập email" })
+        </div>
+        <!-- Phòng Ban -->
+        <div class="form-group mb-4">
+            <label class="form-label fw-bold text-dark">Phòng Ban</label>
+            <span class="text-danger">*</span>
+            @Html.DropDownList("MaPhongBan", null, "-- Chọn Phòng Ban --", new { @class = "form-control border rounded" })
+        </div>
+        <!-- Chức Vụ -->
+        <div class="form-group">
+            <label class="form-label fw-bold text-dark">Chức Vụ</label>
+            <span class="text-danger">*</span>
+            <select id="MaChucVu" name="MaChucVu" class="form-control" disabled>
+                <option value="">-- Chọn chức vụ --</option>
+            </select>
+        </div>
+       
+        <!-- Password -->
+        <div class="form-group mb-4">
+            <label class="form-label fw-bold text-dark">Mật Khẩu</label>
+            @Html.PasswordFor(model => model.Password, new { @class = "form-control border rounded", placeholder = "Nhập mật khẩu" })
+        </div>
+
+        <!-- Nút Hành Động -->
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary px-4 py-2">Lưu</button>
+            @Html.ActionLink("Hủy", "Index", null, new { @class = "btn btn-secondary px-4 py-2 ms-2" })
+        </div>
+    </div>
+}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var errors = @Html.Raw(Json.Encode(ViewBag.Errors));
+        var successMessage = '@TempData["SuccessMessage"]';
+
+        // Hiển thị lỗi nếu có
+        if (errors && errors.length > 0) {
+            Swal.fire({
+                icon: "error",
+                title: "<span style='color: #d9534f; font-size: 22px; font-weight: bold; display: block; text-align: center;'>Lỗi nhập liệu!</span>",
+                html: "<div style='text-align: center; font-size: 16px; color: #333;'>" +
+                        "<ul style='list-style-type: none; padding: 0; display: inline-block; text-align: left;'>" +
+                        errors.map(e =>
+                            "<li style='display: flex; align-items: center; margin-bottom: 5px;'>" +
+                            "<span style='color: #d9534f; font-size: 18px; margin-right: 8px;'>⚠</span>" +
+                            "<span>" + e + "</span>" +
+                            "</li>"
+                        ).join('') +
+                        "</ul>" +
+                      "</div>",
+                confirmButtonColor: "#d9534f",
+                confirmButtonText: "OK",
+                width: "450px"
+            });
+        }
+
+        // Hiển thị thông báo thành công nếu có
+        if (successMessage && successMessage.trim() !== "") {
+            Swal.fire({
+                icon: "success",
+                title: "<span style='color: #28a745; font-size: 22px; font-weight: bold; display: block; text-align: center;'>Thành công!</span>",
+                html: "<p style='text-align: center; font-size: 16px; color: #333;'>" + successMessage + "</p>",
+                confirmButtonColor: "#28a745",
+                confirmButtonText: "OK",
+                width: "400px"
+            });
+        }
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#MaPhongBan").change(function () {
+            var maPhongBan = $(this).val();
+            var chucVuDropdown = $("#MaChucVu");
+
+            if (maPhongBan) {
+                $.ajax({
+                    url: '@Url.Action("GetChucVuByPhongBan", "NhanVien")',
+                    type: "GET",
+                    data: { maPhongBan: maPhongBan },
+                    success: function (response) {
+                        chucVuDropdown.empty();
+                        chucVuDropdown.append('<option value="">-- Chọn chức vụ --</option>');
+
+                        $.each(response.chucVus, function (index, item) {
+                            var isDisabled = response.chucVuDaCoNhanVien.includes(item.MaChucVu);
+
+                            // Nếu chức vụ đã có nhân viên, thì ẩn nó đi
+                            if (!isDisabled) {
+                                chucVuDropdown.append('<option value="' + item.MaChucVu + '">' + item.TenChucVu + '</option>');
+                            }
+                        });
+
+                        chucVuDropdown.prop("disabled", false);
+                    }
+                });
+            } else {
+                chucVuDropdown.empty().append('<option value="">-- Chọn chức vụ --</option>').prop("disabled", true);
+            }
+        });
+    });
+</script>

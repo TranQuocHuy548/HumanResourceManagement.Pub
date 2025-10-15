@@ -1,0 +1,21 @@
+﻿@model HumanResourceManagement.Models.phongban
+
+@{
+    ViewBag.Title = "Xác nhận xóa phòng ban";
+}
+
+<h2>Xác nhận xóa phòng ban</h2>
+
+<p>
+    Bạn có chắc chắn muốn xóa phòng ban "<strong>@Model.TenPhongBan</strong>" với mã phòng ban "<strong>@Model.MaPhongBan</strong>" không?
+</p>
+
+@using (Html.BeginForm("Delete", "PhongBan", new { id = Model.MaPhongBan }, FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-danger">Xóa</button>
+        <a href="@Url.Action("Index", "PhongBan")" class="btn btn-secondary">Hủy</a>
+    </div>
+}

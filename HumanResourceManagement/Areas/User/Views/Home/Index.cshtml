@@ -1,0 +1,43 @@
+﻿@model HumanResourceManagement.Models.nhanvien
+@{
+    ViewBag.Title = "Trang Cá Nhân";
+    Layout = "~/Areas/User/Views/Share/_LayoutUser.cshtml";
+}
+
+<h2>Thông Tin Cá Nhân</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<!-- Hiển thị lời chào với tên nhân viên -->
+<p>Xin chào, <strong>@Model.TenNhanVien</strong>!</p>
+
+<table class="table table-bordered">
+    <tr><th>Mã NV</th><td>@Model.MaNhanVien</td></tr>
+    <tr><th>Tên Nhân Viên</th><td>@Model.TenNhanVien</td></tr>
+    <tr><th>Email</th><td>@Model.Email</td></tr>
+    <tr><th>Giới Tính</th><td>@Model.GioiTinh</td></tr>
+    <tr><th>Phòng Ban</th><td>@Model.phongban?.TenPhongBan</td></tr>
+    <tr><th>Chức Vụ</th><td>@Model.chucvu?.TenChucVu</td></tr>
+</table>
+
+<h4>Chỉnh sửa SĐT và Địa chỉ</h4>
+
+@using (Html.BeginForm("CapNhat", "Home", FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.MaNhanVien)
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.SDT)
+        @Html.TextBoxFor(m => m.SDT, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.DiaChi)
+        @Html.TextBoxFor(m => m.DiaChi, new { @class = "form-control" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Cập Nhật</button>
+}

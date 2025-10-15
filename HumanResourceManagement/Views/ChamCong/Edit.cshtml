@@ -1,0 +1,20 @@
+﻿@model HumanResourceManagement.Models.ChamCongView
+@{
+    ViewBag.Title = "Chỉnh Sửa Giờ Ra";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Chỉnh Sửa Giờ Ra</h2>
+
+@using (Html.BeginForm("Edit", "ChamCong", FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.MaChamCong)
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.ThoiGianRa)
+        @Html.TextBoxFor(m => m.ThoiGianRa, "{0:HH\\:mm}", new { @class = "form-control", type = "time" })
+        @Html.ValidationMessageFor(m => m.ThoiGianRa, "", new { @class = "text-danger" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Lưu Thay Đổi</button>
+}

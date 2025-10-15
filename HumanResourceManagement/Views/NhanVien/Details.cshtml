@@ -1,0 +1,205 @@
+﻿@model HumanResourceManagement.Models.nhanvien
+
+@{
+    ViewBag.Title = "Chi tiết Nhân Viên";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- CSS tùy chỉnh -->
+<style>
+    .employee-detail-card {
+        font-family: 'Poppins', sans-serif;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        border: none;
+    }
+
+    .employee-header {
+        background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+        color: white;
+        padding: 25px 30px;
+        border-radius: 12px 12px 0 0;
+    }
+
+    .employee-title {
+        font-weight: 700;
+        font-size: 1.8rem;
+        margin-bottom: 0;
+    }
+
+    .employee-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+        .employee-table thead th {
+            background-color: #f8fafc;
+            color: #64748b;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            padding: 15px 25px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .employee-table tbody tr:nth-child(even) td {
+            background-color: #f8fafc;
+        }
+
+        .employee-table tbody tr:hover td {
+            background-color: #f1f5f9;
+        }
+
+        .employee-table td {
+            padding: 18px 25px;
+            vertical-align: middle;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.95rem;
+        }
+
+    .field-name {
+        color: #64748b;
+        font-weight: 600;
+        width: 30%;
+    }
+
+    .field-value {
+        color: #1e293b;
+        font-weight: 500;
+    }
+
+    .avatar-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .employee-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid white;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+
+    .badge-male {
+        background-color: #dbeafe;
+        color: #1e40af;
+    }
+
+    .badge-female {
+        background-color: #fce7f3;
+        color: #9d174d;
+    }
+
+    .contact-info {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .contact-icon {
+        color: #64748b;
+        width: 20px;
+        text-align: center;
+    }
+</style>
+
+<div class="container py-4">
+    <div class="card employee-detail-card">
+        <div class="employee-header">
+            <h1 class="employee-title text-center">
+                <i class="fas fa-id-card-alt me-2"></i>THÔNG TIN CHI TIẾT NHÂN VIÊN
+            </h1>
+        </div>
+
+        <div class="card-body p-4">
+            <div class="avatar-container">
+                <img src="https://ui-avatars.com/api/?name=@Model.TenNhanVien&background=2563eb&color=fff&size=120"
+                     alt="Employee Avatar" class="employee-avatar">
+            </div>
+
+            <table class="employee-table">
+                <thead>
+                    <tr>
+                        <th>Thông tin</th>
+                        <th>Chi tiết</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="field-name">Mã Nhân Viên</td>
+                        <td class="field-value">
+                            <span class="badge bg-primary">@Model.MaNhanVien</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="field-name">Họ Tên</td>
+                        <td class="field-value">@Model.TenNhanVien</td>
+                    </tr>
+                    <tr>
+                        <td class="field-name">Ngày Sinh</td>
+                        <td class="field-value">@(Model.NgaySinh?.ToString("dd/MM/yyyy") ?? "N/A")</td>
+                    </tr>
+                    <tr>
+                        <td class="field-name">Giới Tính</td>
+                        <td class="field-value">
+                            @if (Model.GioiTinh == "Nam")
+                            {
+                                <span class="badge badge-male">
+                                    <i class="fas fa-mars me-1"></i> @Model.GioiTinh
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-female">
+                                    <i class="fas fa-venus me-1"></i> @Model.GioiTinh
+                                </span>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="field-name">Email</td>
+                        <td class="field-value">
+                            <div class="contact-info">
+                                <i class="fas fa-envelope contact-icon"></i>
+                                <a href="mailto:@Model.Email">@Model.Email</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="field-name">Số Điện Thoại</td>
+                        <td class="field-value">
+                            <div class="contact-info">
+                                <i class="fas fa-phone contact-icon"></i>
+                                <a href="tel:@Model.SDT">@Model.SDT</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="field-name">Địa Chỉ</td>
+                        <td class="field-value">
+                            <div class="contact-info">
+                                <i class="fas fa-map-marker-alt contact-icon"></i>
+                                @Model.DiaChi
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

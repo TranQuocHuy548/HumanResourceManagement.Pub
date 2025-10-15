@@ -1,0 +1,124 @@
+﻿@model IEnumerable<HumanResourceManagement.Models.ChamCongView>
+@{
+    ViewBag.Title = "Danh sách Chấm Công";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center mb-5">Danh sách Chấm Công</h2>
+
+<!-- CSS tùy chỉnh -->
+<style>
+    .table-container {
+        width: 100%;
+        overflow-x: auto;
+        display: flex;
+        justify-content: center;
+    }
+
+    .table {
+        width: 100%;
+        table-layout: fixed; /* Cố định kích thước cột */
+        border-collapse: collapse;
+        background-color: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+        .table th, .table td {
+            padding: 12px 15px;
+            text-align: center;
+            border-bottom: 1px solid #f1f1f1;
+            min-width: 150px; /* Đảm bảo ô có độ rộng tối thiểu */
+            white-space: nowrap; /* Giữ chữ không xuống dòng */
+        }
+
+        .table th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .table td {
+            background-color: #f9f9f9;
+        }
+
+        .table tr:hover td {
+            background-color: #f1f1f1;
+        }
+
+    .btn-sm {
+        font-size: 14px;
+        padding: 5px 10px;
+    }
+
+    .btn-warning {
+        background-color: #ff9f00;
+        border-color: #ff9f00;
+        color: white;
+        font-weight: bold;
+    }
+
+        .btn-warning:hover {
+            background-color: #e68900;
+            border-color: #e68900;
+        }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+        color: white;
+        font-weight: bold;
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #c82333;
+        }
+
+    .action-link {
+        margin: 0 5px;
+    }
+
+    h2 {
+        font-size: 32px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .text-center {
+        margin-top: 20px;
+    }
+</style>
+
+<div class="table-container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="px-6 py-4 text-left font-medium">Mã Nhân Viên</th>
+                <th class="px-6 py-4 text-left font-medium">Tên Nhân Viên</th>
+                <th class="px-6 py-4 text-left font-medium">Ngày</th>
+                <th class="px-6 py-4 text-left font-medium">Thời Gian Vào</th>
+                <th class="px-6 py-4 text-left font-medium">Thời Gian Ra</th>
+                <th class="px-6 py-4 text-left font-medium">Hành Động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.MaNhanVien</td>
+                    <td>@item.TenNhanVien</td>
+                    <td>@(item.Ngay.HasValue ? item.Ngay.Value.ToString("dd/MM/yyyy") : "N/A")</td>
+                    <td>@(item.ThoiGianVao.HasValue ? item.ThoiGianVao.Value.ToString(@"hh\:mm\:ss") : "N/A")</td>
+                    <td>@(item.ThoiGianRa.HasValue ? item.ThoiGianRa.Value.ToString(@"hh\:mm\:ss") : "N/A")</td>
+                    <td>
+                        <!-- Chi tiết -->
+                        <a class="btn btn-info btn-sm text-white hover:bg-blue-600 transform hover:scale-105 transition-all" href="@Url.Action("Details", "ChamCong", new { id = item.MaChamCong })">
+                            <i class="fas fa-info-circle"></i> Chi tiết
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

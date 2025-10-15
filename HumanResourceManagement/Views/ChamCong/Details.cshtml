@@ -1,0 +1,116 @@
+﻿@model HumanResourceManagement.Models.ChamCongView
+
+@{
+    ViewBag.Title = "Chi Tiết Chấm Công";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-light">
+            <h3 class="mb-0 text-center text-primary"><i class="fas fa-clock me-2"></i>Chi Tiết Chấm Công</h3>
+        </div>
+
+        <div class="card-body">
+            <div class="employee-info mb-4 p-3 bg-light rounded">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5 class="text-primary"><i class="fas fa-id-card me-2"></i>Thông tin nhân viên</h5>
+                        <hr class="mt-2">
+                        <p><strong>Mã nhân viên:</strong> <span class="badge bg-secondary">@Model.MaNhanVien</span></p>
+                        <p><strong>Tên nhân viên:</strong> <span class="fw-bold">@Model.TenNhanVien</span></p>
+                    </div>
+                    <div class="col-md-6">
+                        <h5 class="text-primary"><i class="fas fa-calendar-day me-2"></i>Thông tin ngày làm</h5>
+                        <hr class="mt-2">
+                        <p><strong>Ngày:</strong> <span class="fw-bold">@(Model.Ngay.HasValue ? Model.Ngay.Value.ToString("dd/MM/yyyy") : "N/A")</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timekeeping-details">
+                <h5 class="text-primary mb-3"><i class="fas fa-list-alt me-2"></i>Chi tiết chấm công</h5>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="text-center">Thời Gian Vào</th>
+                                <th class="text-center">Thời Gian Ra</th>
+                                <th class="text-center">Tổng Giờ Làm</th>
+                                <th>Chi Tiết Hoạt Động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-center">
+                                    @if (Model.ThoiGianVao.HasValue)
+                                    {
+                                        <span class="badge bg-success">@Model.ThoiGianVao.Value.ToString(@"hh\:mm\:ss")</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-warning text-dark">N/A</span>
+                                    }
+                                </td>
+                                <td class="text-center">
+                                    @if (Model.ThoiGianRa.HasValue)
+                                    {
+                                        <span class="badge bg-danger">@Model.ThoiGianRa.Value.ToString(@"hh\:mm\:ss")</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-warning text-dark">N/A</span>
+                                    }
+                                </td>
+                                <td class="text-center fw-bold">
+                                    @if (Model.ThoiGianVao.HasValue && Model.ThoiGianRa.HasValue)
+                                    {
+                                        var totalHours = Model.ThoiGianRa.Value - Model.ThoiGianVao.Value;
+                                        <span class="text-primary">@totalHours.ToString(@"hh\:mm\:ss")</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">N/A</span>
+                                    }
+                                </td>
+                                <td>@Model.Scan</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- Nút Trở về -->
+                    <div class="text-center mt-4">
+                        <a href="@Url.Action("Index", "ChamCong")" class="btn btn-primary btn-lg">Trở về danh sách</a>
+                        <a href="@Url.Action("Edit", "ChamCong", new { id = Model.MaChamCong })" class="btn btn-primary">Chỉnh sửa giờ ra</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+    }
+
+    .card-header {
+        border-radius: 8px 8px 0 0 !important;
+        padding: 1rem;
+    }
+
+    .employee-info {
+        border-left: 3px solid #0d6efd;
+    }
+
+    .table th {
+        white-space: nowrap;
+        font-weight: 500;
+    }
+
+    .badge {
+        padding: 0.35em 0.65em;
+        font-size: 0.85em;
+    }
+</style>
+

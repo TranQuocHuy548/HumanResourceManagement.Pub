@@ -1,0 +1,21 @@
+﻿@model HumanResourceManagement.Models.chucvu
+
+@{
+    ViewBag.Title = "Xác nhận xóa chức vụ";
+}
+
+<h2>Xác nhận xóa chức vụ</h2>
+
+<p>
+    Bạn có chắc chắn muốn xóa chức vụ "<strong>@Model.TenChucVu</strong>" với mã chức vụ "<strong>@Model.MaChucVu</strong>" không?
+</p>
+
+@using (Html.BeginForm("Delete", "ChucVu", new { id = Model.MaChucVu }, FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-danger">Xóa</button>
+        <a href="@Url.Action("Index", "ChucVu")" class="btn btn-secondary">Hủy</a>
+    </div>
+}

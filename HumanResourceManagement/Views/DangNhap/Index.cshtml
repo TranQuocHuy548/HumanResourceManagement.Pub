@@ -1,0 +1,49 @@
+﻿@{
+    ViewBag.Title = "Đăng Nhập";
+    Layout = "~/Views/Shared/_LayoutDangNhap.cshtml";
+}
+
+<h2 class="text-center text-2xl font-bold mb-6">Đăng nhập</h2>
+
+@using (Html.BeginForm("Index", "DangNhap", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group mb-4">
+        @Html.Label("Tên đăng nhập", new { @class = "block text-gray-700 text-sm font-bold mb-2" })
+        @Html.TextBox("username", null, new
+        {
+            @class = "form-control p-3 border rounded-md shadow-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500",
+            placeholder = "Nhập email đăng nhập..."
+        })
+    </div>
+
+    <div class="form-group mb-4">
+        @Html.Label("Mật khẩu", new { @class = "block text-gray-700 text-sm font-bold mb-2" })
+        @Html.Password("password", null, new
+        {
+            @class = "form-control p-3 border rounded-md shadow-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500",
+            placeholder = "Nhập mật khẩu..."
+        })
+    </div>
+
+    <div class="form-group mb-4">
+        <input type="submit" value="Đăng Nhập" class="btn btn-primary bg-gradient-to-r from-purple-600 to-blue-500 text-white py-3 px-6 rounded-lg w-full hover:from-purple-700 hover:to-blue-600 transition ease-in-out duration-300" />
+    </div>
+}
+
+@if (ViewBag.ThongBao != null)
+{
+    <div class="alert alert-danger text-center bg-red-100 border border-red-500 text-red-700 px-4 py-3 rounded-lg">
+        @ViewBag.ThongBao
+    </div>
+}
+@if (ViewBag.Password != null)
+{
+    <div style="margin-top: 20px; color: red;">
+        <p><strong>Mật khẩu nhập:</strong> @Request["password"]</p>
+        <p><strong>Mật khẩu trong DB:</strong> @ViewBag.Password</p>
+        <p><strong>Email trong DB:</strong> @ViewBag.Email/p>
+    </div>
+}
+

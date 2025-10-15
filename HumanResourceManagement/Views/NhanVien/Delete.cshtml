@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Xác nhận xóa nhân viên</h2>
+
+<p>
+    Bạn có chắc chắn muốn xóa nhân viên "<strong>@ViewBag.EmployeeName</strong>" với mã số "<strong>@ViewBag.EmployeeId</strong>" không?
+</p>
+
+<form method="post" action="@Url.Action("Delete", "NhanVien")">
+    @Html.AntiForgeryToken() <!-- Thêm AntiForgeryToken vào form -->
+    <!-- Truyền id nhân viên vào form -->
+    <input type="hidden" name="id" value="@ViewBag.EmployeeId" />
+
+    <button type="submit" class="btn btn-danger">Xóa</button>
+    <a href="@Url.Action("Index", "NhanVien")" class="btn btn-secondary">Hủy</a>
+</form>

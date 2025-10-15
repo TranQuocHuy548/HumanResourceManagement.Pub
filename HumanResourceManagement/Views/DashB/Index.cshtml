@@ -1,0 +1,50 @@
+﻿<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Thống kê bằng số -->
+    <div class="grid grid-cols-3 gap-6">
+        <div class="bg-blue-500 text-white p-6 rounded-lg shadow-md text-center">
+            <h2 class="text-xl font-semibold">Nhân viên</h2>
+            <p class="text-4xl font-bold">@ViewBag.TotalEmployees</p>
+        </div>
+
+        <div class="bg-green-500 text-white p-6 rounded-lg shadow-md text-center">
+            <h2 class="text-xl font-semibold">Phòng ban</h2>
+            <p class="text-4xl font-bold">@ViewBag.TotalDepartments</p>
+        </div>
+
+        <div class="bg-yellow-500 text-white p-6 rounded-lg shadow-md text-center">
+            <h2 class="text-xl font-semibold">Chức vụ</h2>
+            <p class="text-4xl font-bold">@ViewBag.TotalPositions</p>
+        </div>
+    </div>
+
+    <!-- Biểu đồ thống kê -->
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+        <canvas id="myChart"></canvas>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var ctx = document.getElementById('myChart').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'doughnut', // Biểu đồ tròn
+            data: {
+                labels: ['Nhân viên', 'Phòng ban', 'Chức vụ'],
+                datasets: [{
+                    data: [@ViewBag.TotalEmployees, @ViewBag.TotalDepartments, @ViewBag.TotalPositions],
+                    backgroundColor: ['#3B82F6', '#10B981', '#FBBF24'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    });
+</script>

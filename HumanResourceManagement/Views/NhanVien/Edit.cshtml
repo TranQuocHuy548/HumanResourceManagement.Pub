@@ -1,0 +1,150 @@
+﻿@model HumanResourceManagement.Models.nhanvien
+
+@{
+    ViewBag.Title = "Chỉnh sửa thông tin nhân viên";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center text-3xl font-semibold mb-8">Chỉnh sửa thông tin nhân viên</h2>
+
+@using (Html.BeginForm("Edit", "NhanVien", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger mb-4 text-center bg-red-100 border border-red-500 text-red-700 px-4 py-3 rounded-lg">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+
+    <div class="max-w-3xl mx-auto bg-white shadow-md rounded-lg p-6">
+
+        <h4 class="text-2xl font-medium mb-6 text-gray-700">Thông tin nhân viên</h4>
+
+        <div class="space-y-6">
+
+            <!-- Tên Nhân Viên -->
+            <div class="form-group">
+                @Html.LabelFor(model => model.TenNhanVien, "Tên nhân viên", htmlAttributes: new { @class = "block text-gray-600 text-sm font-semibold mb-2" })
+                <div class="relative">
+                    @Html.EditorFor(model => model.TenNhanVien, new { @class = "w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" })
+                    @Html.ValidationMessageFor(model => model.TenNhanVien, "", new { @class = "text-red-500 text-sm mt-1" })
+                </div>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email, "Email", htmlAttributes: new { @class = "block text-gray-600 text-sm font-semibold mb-2" })
+                <div class="relative">
+                    @Html.EditorFor(model => model.Email, new { @class = "w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-red-500 text-sm mt-1" })
+                </div>
+            </div>
+
+            <!-- Giới Tính -->
+            <div class="form-group">
+                @Html.LabelFor(model => model.GioiTinh, "Giới tính", htmlAttributes: new { @class = "block text-gray-600 text-sm font-semibold mb-2" })
+                <div class="relative">
+                    @Html.RadioButtonFor(model => model.GioiTinh, "Nam", new { @class = "mr-2" }) Nam
+                    @Html.RadioButtonFor(model => model.GioiTinh, "Nu", new { @class = "mr-2" }) Nữ
+                    @Html.ValidationMessageFor(model => model.GioiTinh, "", new { @class = "text-red-500 text-sm mt-1" })
+                </div>
+            </div>
+
+            <!-- Ngày Sinh -->
+            <div class="form-group">
+                @Html.LabelFor(model => model.NgaySinh, "Ngày sinh", htmlAttributes: new { @class = "block text-gray-600 text-sm font-semibold mb-2" })
+                <div class="relative">
+                    @Html.TextBoxFor(model => model.NgaySinh, new { @class = "w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500", type = "date" })
+                    @Html.ValidationMessageFor(model => model.NgaySinh, "", new { @class = "text-red-500 text-sm mt-1" })
+                </div>
+            </div>
+
+            <!-- Dia Chi -->
+            <div class="form-group">
+                @Html.LabelFor(model => model.DiaChi, "Địa Chỉ", htmlAttributes: new { @class = "block text-gray-600 text-sm font-semibold mb-2" })
+                <div class="relative">
+                    @Html.EditorFor(model => model.DiaChi, new { @class = "w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" })
+                    @Html.ValidationMessageFor(model => model.DiaChi, "", new { @class = "text-red-500 text-sm mt-1" })
+                </div>
+            </div>
+            <!-- So Dien Thoai -->
+            <div class="form-group">
+                @Html.LabelFor(model => model.SDT, "Số Điện Thoại", htmlAttributes: new { @class = "block text-gray-600 text-sm font-semibold mb-2" })
+                <div class="relative">
+                    @Html.EditorFor(model => model.SDT, new { @class = "w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" })
+                    @Html.ValidationMessageFor(model => model.SDT, "", new { @class = "text-red-500 text-sm mt-1" })
+                </div>
+            </div>
+            <!-- Phòng Ban -->
+            <div class="form-group">
+                @Html.LabelFor(model => model.MaPhongBan, "Phòng ban", htmlAttributes: new { @class = "block text-gray-600 text-sm font-semibold mb-2" })
+                <div class="relative">
+                    @Html.DropDownListFor(model => model.MaPhongBan, (SelectList)ViewBag.MaPhongBan, "Chọn Phòng Ban", new { @class = "w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" })
+                    @Html.ValidationMessageFor(model => model.MaPhongBan, "", new { @class = "text-red-500 text-sm mt-1" })
+                </div>
+            </div>
+
+            <!-- Chức Vụ -->
+            <div class="form-group">
+                @Html.LabelFor(model => model.MaChucVu, "Chức vụ", htmlAttributes: new { @class = "block text-gray-600 text-sm font-semibold mb-2" })
+                <div class="relative">
+                    @Html.DropDownListFor(model => model.MaChucVu, new SelectList(Enumerable.Empty<SelectListItem>()), "Chọn Chức Vụ", new { @class = "w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" })
+
+                    @Html.ValidationMessageFor(model => model.MaChucVu, "", new { @class = "text-red-500 text-sm mt-1" })
+                </div>
+            </div>
+
+            <!-- Các nút Submit và Cancel -->
+            <div class="flex items-center justify-between">
+                <div>
+                    <input type="submit" value="Lưu thay đổi" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg w-full transition duration-200 ease-in-out" />
+                </div>
+                <div>
+                    @Html.ActionLink("Hủy bỏ", "Index", null, new { @class = "bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-6 rounded-lg w-full transition duration-200 ease-in-out" })
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#MaPhongBan").change(function () {
+            var maPhongBan = $(this).val();
+            if (maPhongBan) {
+                $.ajax({
+                    url: "/NhanVien/GetChucVuByPhongBan",
+                    type: "GET",
+                    data: { maPhongBan: maPhongBan },
+                    dataType: "json",
+                    success: function (data) {
+                        console.log("Dữ liệu nhận về từ API:", data); // Kiểm tra JSON
+
+                        var chucVuDropdown = $("#MaChucVu");
+                        chucVuDropdown.empty();
+                        chucVuDropdown.append('<option value="">-- Chọn chức vụ --</option>');
+
+                        if (data.error) {
+                            console.log("Lỗi từ API:", data.error);
+                            chucVuDropdown.append('<option value="">Không có chức vụ nào</option>');
+                        } else if (data.length > 0) {
+                            $.each(data, function (index, item) {
+                                console.log("Chức vụ:", item); // Debug từng mục
+                                chucVuDropdown.append('<option value="' + item.MaChucVu + '">' + item.TenChucVu + '</option>');
+                            });
+                        } else {
+                            chucVuDropdown.append('<option value="">Không có chức vụ nào</option>');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Lỗi khi gọi API:", error);
+                    }
+                });
+            }
+        });
+    });
+</script>
+

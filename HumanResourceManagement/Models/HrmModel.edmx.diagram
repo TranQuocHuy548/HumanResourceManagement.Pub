@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="18a87467101243618c0baaa56c6288f5" Name="Diagram1" ZoomLevel="64">
+        <EntityTypeShape EntityType="HumanResourceManagement.chamcong" Width="1.5" PointX="5.25" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HumanResourceManagement.chucvu" Width="1.5" PointX="0.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="HumanResourceManagement.nhanvien" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="HumanResourceManagement.phongban" Width="1.5" PointX="0.75" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HumanResourceManagement.sysdiagram" Width="1.5" PointX="2.75" PointY="5.75" IsExpanded="true" />
+        <AssociationConnector Association="HumanResourceManagement.FK__chamcong__MaNhan__3F466844" ManuallyRouted="false" />
+        <AssociationConnector Association="HumanResourceManagement.FK__nhanvien__MaChuc__3B75D760" ManuallyRouted="false" />
+        <AssociationConnector Association="HumanResourceManagement.FK__nhanvien__MaPhon__3C69FB99" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

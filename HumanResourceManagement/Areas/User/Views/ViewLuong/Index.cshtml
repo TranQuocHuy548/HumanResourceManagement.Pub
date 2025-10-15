@@ -1,0 +1,41 @@
+﻿@model List<HumanResourceManagement.Models.LuongViewModel>
+
+@{
+    ViewBag.Title = "Employee Salary Details";
+    Layout = "~/Areas/User/Views/Share/_LayoutUser.cshtml";
+}
+
+<h2>Số giờ làm và lương tạm tính ngày hôm nay @ViewBag.ngay</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Mã NV</th>
+            <th>Tên Nhân Viên</th>
+            <th>Chức Vụ</th>
+            <th class="text-right">Lương Theo Giờ</th>
+            <th class="text-right">Giờ Làm</th>
+            <th class="text-right">OT</th>
+            <th class="text-right">Lương Chính</th>
+            <th class="text-right">Lương OT</th>
+            <th class="text-right text-success">Tổng Lương</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.MaNhanVien</td>
+                <td>@item.TenNhanVien</td>
+                <td>@item.TenChucVu</td>
+                <td class="text-right">@item.LuongTheoGio.ToString("N0")</td>
+                <td class="text-right">@item.TongGioLam.ToString("N2")</td>
+                <td class="text-right">@item.TongGioOT.ToString("N2")</td>
+                <td class="text-right">@item.LuongChinh.ToString("N0")</td>
+                <td class="text-right">@item.LuongOT.ToString("N0")</td>
+                <td class="text-right font-weight-bold text-success">@item.TongLuong.ToString("N0")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

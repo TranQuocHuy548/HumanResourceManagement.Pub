@@ -1,0 +1,33 @@
+﻿@model HumanResourceManagement.Models.chucvu
+
+@{
+    ViewBag.Title = "Chỉnh sửa chức vụ";
+}
+
+<div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg">
+    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Chỉnh sửa chức vụ</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <!-- Tên chức vụ -->
+        <div class="mb-4">
+            @Html.LabelFor(model => model.TenChucVu, "Tên Chức Vụ", new { @class = "block text-gray-700 font-semibold mb-2" })
+            @Html.EditorFor(model => model.TenChucVu, new { htmlAttributes = new { @class = "form-control w-full p-2 border rounded-md" } })
+            @Html.ValidationMessageFor(model => model.TenChucVu, "", new { @class = "text-red-500 text-sm" })
+        </div>
+
+
+
+        <!-- Nút Lưu và Hủy -->
+        <div class="flex space-x-4">
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-all">
+                <i class="fas fa-save mr-2"></i> Lưu thay đổi
+            </button>
+            <a href="@Url.Action("Index", "ChucVu")" class="bg-gray-400 text-white px-4 py-2 rounded-md hover:bg-gray-500 transition-all">
+                <i class="fas fa-times mr-2"></i> Hủy bỏ
+            </a>
+        </div>
+    }
+</div>

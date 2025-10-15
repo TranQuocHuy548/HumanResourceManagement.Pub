@@ -1,0 +1,34 @@
+﻿@model HumanResourceManagement.Models.phongban
+
+@{
+    ViewBag.Title = "Chỉnh sửa phòng ban";
+}
+
+<div class="max-w-4xl mx-auto p-6">
+    <h2 class="text-4xl font-semibold text-gray-800 mb-8 text-center">Chỉnh sửa Phòng Ban</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <!-- Form chỉnh sửa -->
+        <div class="bg-white p-8 rounded-lg shadow-lg">
+            <!-- Tên phòng ban -->
+            <div class="mb-6">
+                @Html.LabelFor(model => model.TenPhongBan, "Tên Phòng Ban", new { @class = "block text-lg font-medium text-gray-700" })
+                @Html.EditorFor(model => model.TenPhongBan, new { htmlAttributes = new { @class = "mt-2 p-4 border rounded-md w-full bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:outline-none" } })
+                @Html.ValidationMessageFor(model => model.TenPhongBan, "", new { @class = "text-sm text-red-500" })
+            </div>
+
+            <!-- Nút Lưu và Hủy -->
+            <div class="flex justify-end space-x-4 mt-6">
+                <button type="submit" class="px-6 py-3 bg-blue-600 text-white text-lg rounded-lg hover:bg-blue-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    Lưu thay đổi
+                </button>
+                <a href="@Url.Action("Index", "PhongBan")" class="px-6 py-3 bg-gray-600 text-white text-lg rounded-lg hover:bg-gray-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500">
+                    Hủy bỏ
+                </a>
+            </div>
+        </div>
+    }
+</div>

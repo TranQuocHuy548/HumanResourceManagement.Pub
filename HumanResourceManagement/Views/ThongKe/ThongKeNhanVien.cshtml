@@ -1,0 +1,245 @@
+﻿@{
+    ViewBag.Title = "ThongKeNhanVien";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center">Thống Kê Nhân Viên</h2>
+
+<!-- Form để chọn ngày và giờ vào ca -->
+<div class="form-container">
+    <form method="get" action="@Url.Action("ThongKeNhanVien", "ThongKe")">
+        <div class="form-group">
+            <label for="ngay">Ngày:</label>
+            <input type="date" id="ngay" name="ngay" value="@ViewBag.Ngay" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label for="gioVaoCa">Giờ Vào Ca (hh:mm):</label>
+            <input type="time" id="gioVaoCa" name="gioVaoCa" value="@ViewBag.GioVaoCa ?? " 08:00"" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn-submit">Lọc</button>
+        </div>
+    </form>
+</div>
+
+<!-- Hiển thị thống kê số nhân viên làm việc trong ngày -->
+<div class="statistics">
+    <p><strong>Ngày @ViewBag.Ngay</strong>: @ViewBag.SoLuongTrongNgay nhân viên làm việc</p>
+</div>
+
+<!-- Danh sách nhân viên đi trễ ngày -->
+<h3>Danh sách nhân viên đi trễ ngày @ViewBag.Ngay</h3>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Mã Nhân Viên</th>
+            <th>Tên Nhân Viên</th>
+            <th>Thời Gian Vào</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in (List<HumanResourceManagement.Models.NhanVienDiTre>)ViewBag.DanhSachDiTreNgay)
+        {
+            <tr>
+                <td>@item.MaNhanVien</td>
+                <td>@item.TenNhanVien</td>
+                <td>@item.ThoiGianVao</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Danh sách nhân viên đi trễ tháng -->
+<h3>Danh sách nhân viên đi trễ tháng @ViewBag.Thang/@ViewBag.Nam</h3>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Mã Nhân Viên</th>
+            <th>Tên Nhân Viên</th>
+            <th>Thời Gian Vào</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in (List<HumanResourceManagement.Models.NhanVienDiTre>)ViewBag.DanhSachDiTreThang)
+        {
+            <tr>
+                <td>@item.MaNhanVien</td>
+                <td>@item.TenNhanVien</td>
+                <td>@item.ThoiGianVao</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Nút xuất báo cáo -->
+<div class="form-group">
+    <button type="button" id="btnExport" class="btn-submit">Xuất Báo Cáo</button>
+</div>
+
+<!-- Phần xem trước báo cáo -->
+<div id="reportPreviewModal" style="display:none;">
+    <div class="modal-content">
+        <div class="report-header" style="text-align: center; margin-bottom: 20px;">
+            <p style="font-weight: bold; margin-bottom: 5px;">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</p>
+            <p style="font-weight: bold; margin-bottom: 5px;">Độc lập - Tự do - Hạnh phúc</p>
+            <p style="margin-bottom: 5px;">---------------------</p>
+            <h2 style="text-transform: uppercase; margin-bottom: 20px;">Báo cáo thống kê chấm công </h2>
+        </div>
+
+        <div class="report-info" style="margin-bottom: 20px;">
+            <p><strong>Ngày báo cáo:</strong> @DateTime.Now.ToString("dd/MM/yyyy")</p>
+            <p><strong>Ngày thống kê:</strong> @ViewBag.Ngay</p>
+        </div>
+
+        <div class="statistics" style="margin-bottom: 30px;">
+            <h3 style="border-bottom: 1px solid #333; padding-bottom: 5px;">1. Tổng quan</h3>
+            <p>- Tổng số nhân viên làm việc: <strong>@ViewBag.SoLuongTrongNgay</strong></p>
+            <p>- Số nhân viên đi trễ trong ngày: <strong>@((ViewBag.DanhSachDiTreNgay as List<HumanResourceManagement.Models.NhanVienDiTre>)?.Count ?? 0)</strong></p>
+            <p>- Số nhân viên đi trễ trong tháng: <strong>@((ViewBag.DanhSachDiTreThang as List<HumanResourceManagement.Models.NhanVienDiTre>)?.Count ?? 0)</strong></p>
+        </div>
+
+        <div class="report-section">
+            <h3 style="border-bottom: 1px solid #333; padding-bottom: 5px;">2. Danh sách nhân viên đi trễ ngày @ViewBag.Ngay</h3>
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px;">
+                <thead>
+                    <tr style="background-color: #f2f2f2;">
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">STT</th>
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Mã Nhân Viên</th>
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Tên Nhân Viên</th>
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Thời Gian Vào</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int stt = 1;
+                        foreach (var item in (List<HumanResourceManagement.Models.NhanVienDiTre>)ViewBag.DanhSachDiTreNgay)
+                        {
+                            <tr>
+                                <td style="border: 1px solid #ddd; padding: 8px;">@(stt++)</td>
+                                <td style="border: 1px solid #ddd; padding: 8px;">@item.MaNhanVien</td>
+                                <td style="border: 1px solid #ddd; padding: 8px;">@item.TenNhanVien</td>
+                                <td style="border: 1px solid #ddd; padding: 8px;">@item.ThoiGianVao</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="report-section">
+            <h3 style="border-bottom: 1px solid #333; padding-bottom: 5px;">3. Danh sách nhân viên đi trễ tháng @ViewBag.Thang/@ViewBag.Nam</h3>
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px;">
+                <thead>
+                    <tr style="background-color: #f2f2f2;">
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">STT</th>
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Mã Nhân Viên</th>
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Tên Nhân Viên</th>
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Thời Gian Vào</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        stt = 1;
+                        foreach (var item in (List<HumanResourceManagement.Models.NhanVienDiTre>)ViewBag.DanhSachDiTreThang)
+                        {
+                            <tr>
+                                <td style="border: 1px solid #ddd; padding: 8px;">@(stt++)</td>
+                                <td style="border: 1px solid #ddd; padding: 8px;">@item.MaNhanVien</td>
+                                <td style="border: 1px solid #ddd; padding: 8px;">@item.TenNhanVien</td>
+                                <td style="border: 1px solid #ddd; padding: 8px;">@item.ThoiGianVao</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="report-footer" style="text-align: right; margin-top: 50px;">
+            <div style="display: inline-block; text-align: center;">
+                <p style="font-weight: bold; margin-bottom: 50px;">Người lập báo cáo</p>
+                <p>(Ký và ghi rõ họ tên)</p>
+            </div>
+        </div>
+
+        <!-- Nút xác nhận xuất báo cáo -->
+        <div class="form-group" style="text-align: center; margin-top: 20px;">
+            <button type="button" id="confirmExport" class="btn-submit">Xác nhận</button>
+            <button type="button" id="cancelExport" class="btn-submit">Hủy</button>
+        </div>
+    </div>
+</div>
+
+<!-- CSS cho modal -->
+<style>
+    #reportPreviewModal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: none;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-content {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 90%;
+        overflow-y: auto;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-submit {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        margin: 10px;
+    }
+
+        .btn-submit:hover {
+            background-color: #0056b3;
+        }
+</style>
+
+<script type="text/javascript">
+    document.getElementById("btnExport").addEventListener("click", function () {
+        document.getElementById("reportPreviewModal").style.display = "flex";
+    });
+
+    document.getElementById("cancelExport").addEventListener("click", function () {
+        document.getElementById("reportPreviewModal").style.display = "none";
+    });
+
+    document.getElementById("confirmExport").addEventListener("click", function () {
+        // Ẩn tất cả các phần tử "Xác nhận" và "Hủy"
+        var buttons = document.querySelectorAll(".form-group");
+        buttons.forEach(function (button) {
+            button.style.display = "none";
+        });
+
+        // Lấy nội dung báo cáo từ modal
+        var reportContent = document.querySelector("#reportPreviewModal .modal-content").innerHTML;
+
+        // Tạo file Word từ nội dung báo cáo
+        var blob = new Blob([reportContent], { type: 'application/msword' });
+        var link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'BaoCaoPhongBan.doc';
+        link.click();
+
+        // Hiển thị lại tất cả các phần tử "Xác nhận" và "Hủy" sau khi xuất báo cáo
+        buttons.forEach(function (button) {
+            button.style.display = "block";
+        });
+
+        // Đóng modal sau khi xuất báo cáo
+        document.getElementById("reportPreviewModal").style.display = "none";
+    });
+</script>

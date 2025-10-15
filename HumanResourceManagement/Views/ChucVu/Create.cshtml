@@ -1,0 +1,109 @@
+﻿@model HumanResourceManagement.Models.chucvu
+
+@{
+    ViewBag.Title = "Thêm mới chức vụ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center title">Thêm mới chức vụ</h2>
+
+@using (Html.BeginForm("Create", "ChucVu", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-container">
+        <div class="form-group">
+            @Html.LabelFor(model => model.TenChucVu, "Tên Chức Vụ", htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.TenChucVu, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập tên chức vụ..." } })
+            @Html.ValidationMessageFor(model => model.TenChucVu, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Phòng Ban")
+            @Html.DropDownList("MaPhongBan", ViewBag.MaPhongBan as SelectList, "-- Chọn phòng ban --", new { @class = "form-control" })
+        </div>
+
+        <div class="form-group text-center" style="margin-top: 20px;">
+            <button type="submit" class="btn btn-primary action-btn">Thêm mới</button>
+            <a href="@Url.Action("Index", "ChucVu")" class="btn btn-outline-secondary action-btn">Hủy bỏ</a>
+        </div>
+    </div>
+}
+
+<style>
+    .title {
+        color: #2c3e50;
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .form-container {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 25px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-control {
+        font-size: 15px;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #ced4da;
+        width: 100%;
+    }
+
+    .btn {
+        font-size: 16px;
+        padding: 10px 20px;
+        border-radius: 6px;
+        transition: all 0.3s;
+    }
+
+    .btn-primary {
+        background-color: #3498db;
+        border-color: #3498db;
+        color: white;
+    }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+
+    .btn-outline-secondary {
+        border-color: #7f8c8d;
+        color: #7f8c8d;
+    }
+
+        .btn-outline-secondary:hover {
+            background-color: #7f8c8d;
+            color: white;
+        }
+</style>
+
+<script>
+   document.addEventListener("DOMContentLoaded", function () {
+    var errors = @Html.Raw(Json.Encode(ViewBag.Errors));
+    if (errors && errors.length > 0) {
+        Swal.fire({
+            icon: "error",
+            title: "Lỗi nhập liệu!",
+            html: "<div style='text-align: center; font-size: 16px;'>" +
+                    "<ul style='display: inline-block; text-align: left; padding: 0; list-style: none;'>" +
+                      errors.map(e => "<li style='color: red;'>⚠ " + e + "</li>").join('') +
+                    "</ul>" +
+                  "</div>",
+            confirmButtonColor: "#d9534f",
+            confirmButtonText: "Đã hiểu",
+            width: "400px"
+        });
+    }
+});
+</script>

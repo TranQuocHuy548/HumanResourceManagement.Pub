@@ -1,0 +1,78 @@
+﻿@model IEnumerable<HumanResourceManagement.Models.phongban>
+@{
+    ViewBag.Title = "Quản lý phòng ban";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2 class="text-3xl font-semibold mb-6 text-gray-800">Danh sách Phòng Ban</h2>
+
+<!-- Thêm phòng ban -->
+<div class="mb-6 text-right">
+    <a href="@Url.Action("Create", "PhongBan")" class="bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 shadow-lg transform hover:scale-105 transition-all">
+        <i class="fas fa-plus mr-2"></i> Thêm Phòng Ban
+    </a>
+</div>
+
+<!-- Bảng danh sách phòng ban -->
+<div class="overflow-x-auto bg-white p-6 rounded-lg shadow-lg">
+    <table class="min-w-full table-auto border-collapse">
+        <thead class="bg-blue-600 text-white">
+            <tr>
+
+                <th class="px-6 py-4 text-left font-medium">Tên Phòng Ban</th>
+                <th class="px-6 py-4 text-left font-medium">Hành Động</th>
+            </tr>
+        </thead>
+        <tbody class="text-gray-700">
+            @foreach (var item in Model)
+            {
+                <tr class="border-b hover:bg-gray-100 transition-all">
+
+                    <td class="px-6 py-4">@item.TenPhongBan</td>
+                    <td class="px-6 py-4">
+                        <!-- Sửa -->
+                        <a class="btn btn-warning btn-sm text-white hover:bg-yellow-600 transform hover:scale-105 transition-all" href="@Url.Action("Edit", "PhongBan", new { id = item.MaPhongBan })">
+                            <i class="fas fa-edit"></i> Sửa
+                        </a>
+                        <!-- Chi tiết -->
+                        <a class="btn btn-info btn-sm text-white hover:bg-blue-600 transform hover:scale-105 transition-all" href="@Url.Action("Details", "PhongBan", new { id = item.MaPhongBan })">
+                            <i class="fas fa-info-circle"></i> Chi tiết
+                        </a>
+                        <!-- Xóa -->
+                        <a class="btn btn-danger btn-sm text-white hover:bg-red-600 transform hover:scale-105 transition-all" href="@Url.Action("Delete", "PhongBan", new { id = item.MaPhongBan })">
+                            <i class="fas fa-trash"></i> Xoá
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var successMessage = @Html.Raw(Json.Encode(TempData["SwalSuccess"]));
+        var errorMessage = @Html.Raw(Json.Encode(TempData["SwalError"]));
+
+        if (successMessage) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Thành công!',
+                text: successMessage,
+                timer: 3000,
+                showConfirmButton: false
+            });
+        }
+
+        if (errorMessage) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi!',
+                text: errorMessage,
+                timer: 5000,
+                showConfirmButton: false
+            });
+        }
+    });
+</script>
+

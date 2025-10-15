@@ -1,0 +1,82 @@
+﻿@model IEnumerable<HumanResourceManagement.Models.chucvu>
+@{
+    ViewBag.Title = "Quản lý chức vụ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2 class="text-3xl font-semibold mb-6 text-gray-800">Danh sách chức vụ</h2>
+<!-- Thêm chức vụ -->
+<div class="mb-4 text-right">
+    <a href="@Url.Action("Create", "ChucVu")" class="bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 shadow-md transform hover:scale-105 transition-all">
+        <i class="fas fa-plus mr-2"></i> Thêm
+    </a>
+</div>
+
+<!-- Bảng danh sách chức vụ -->
+<div class="overflow-x-auto bg-white p-6 rounded-lg shadow-lg">
+    <table class="min-w-full table-auto border-collapse">
+        <thead class="bg-blue-600 text-white">
+            <tr>
+
+                <th class="px-6 py-4 text-left font-medium">Tên Chức Vụ</th>
+                <th class="px-6 py-4 text-left font-medium">Hành Động</th>
+            </tr>
+        </thead>
+        <tbody class="text-gray-700">
+            @foreach (var item in Model)
+            {
+                <tr class="border-b hover:bg-gray-100 transition-all">
+
+                    <td class="px-6 py-4">@item.TenChucVu</td>
+
+
+                    <td class="px-6 py-4">
+
+                        <!-- Sửa -->
+                        <a class="btn btn-warning btn-sm text-white hover:bg-yellow-600 transform hover:scale-105 transition-all" href="@Url.Action("Edit", "ChucVu", new { id = item.MaChucVu })">
+                            <i class="fas fa-edit"></i> Sửa
+                        </a>
+                        <!-- Chi tiết -->
+                        <a class="btn btn-info btn-sm text-white hover:bg-blue-600 transform hover:scale-105 transition-all" href="@Url.Action("Details", "ChucVu", new { id = item.MaChucVu })">
+                            <i class="fas fa-info-circle"></i> Chi tiết
+                        </a>
+                        <!-- Xóa -->
+                        <a class="btn btn-danger btn-sm text-white hover:bg-red-600 transform hover:scale-105 transition-all" href="@Url.Action("Delete", "ChucVu", new { id = item.MaChucVu })">
+                            <i class="fas fa-trash"></i> Xoá
+                        </a>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var successMessage = '@TempData["SuccessMessage"]';
+        var errorMessage = '@TempData["SwalError"]';
+
+        if (successMessage && successMessage.trim() !== "") {
+            Swal.fire({
+                icon: "success",
+                title: "<span style='color: #28a745; font-size: 22px; font-weight: bold;'>Thành công!</span>",
+                html: "<p style='text-align: center; font-size: 16px; color: #333;'>" + successMessage + "</p>",
+                confirmButtonColor: "#28a745",
+                confirmButtonText: "OK",
+                timer: 2500,
+                width: "400px"
+            });
+        }
+
+        if (errorMessage && errorMessage.trim() !== "") {
+            Swal.fire({
+                icon: "error",
+                title: "<span style='color: #dc3545; font-size: 22px; font-weight: bold;'>Lỗi!</span>",
+                html: "<p style='text-align: center; font-size: 16px; color: #333;'>" + errorMessage + "</p>",
+                confirmButtonColor: "#dc3545",
+                confirmButtonText: "OK",
+                timer: 4000,
+                width: "400px"
+            });
+        }
+    });
+</script>

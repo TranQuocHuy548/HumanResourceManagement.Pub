@@ -1,0 +1,102 @@
+﻿@model IEnumerable<HumanResourceManagement.Models.nhanvien>
+@{
+    ViewBag.Title = "Quản lý người dùng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-3xl font-semibold mb-6 text-gray-800">Danh sách nhân sự</h2>
+
+<!-- Tìm kiếm nhân viên -->
+<div class="mb-6">
+    @using (Html.BeginForm("Index", "NhanVien", FormMethod.Get, new { @class = "flex gap-4" }))
+    {
+        <input type="text" name="keyword" value="@Request.QueryString["keyword"]" placeholder="Nhập từ khóa tìm kiếm..."
+               class="form-control w-full border rounded p-2" />
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-search"></i> Tìm kiếm
+        </button>
+    }
+</div>
+
+<!-- Thêm nhân viên -->
+<div class="mb-6 text-right">
+    <a href="@Url.Action("Create", "NhanVien")" class="bg-green-600 text-white px-6 py-3 rounded-full hover:bg-green-700 shadow-lg transform hover:scale-105 transition-all">
+        <i class="fas fa-plus mr-2"></i> Thêm Mới
+    </a>
+</div>
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-info">
+        @ViewBag.Message
+    </div>
+}
+
+@if (!Model.Any())
+{
+    <div class="alert alert-warning">
+        Không có nhân viên nào trong danh sách.
+    </div>
+}
+else
+{
+    <div class="overflow-y-auto max-h-[100px] border rounded-lg shadow-md">
+        <table class="min-w-full table-auto border-collapse">
+            <thead class="bg-blue-600 text-white">
+                <tr>
+                    <th class="px-6 py-4 text-center font-medium">Mã Nhân Viên</th>
+                    <th class="px-6 py-4 text-center font-medium">Tên Nhân Viên</th>
+                    <th class="px-6 py-4 text-center font-medium">Email</th>
+                    <th class="px-6 py-4 text-center font-medium">Giới Tính</th>
+                    <th class="px-6 py-4 text-center font-medium">Ngày Sinh</th>
+                    <th class="px-6 py-4 text-center font-medium">Chức Vụ</th>
+                    <th class="px-6 py-4 text-center font-medium">Phòng Ban</th>
+                    <th class="px-6 py-4 text-center font-medium">Hành Động</th>
+                </tr>
+            </thead>
+            <tbody class="text-gray-700">
+                @for (int i = 0; i < Model.Count(); i++)
+                {
+                    var item = Model.ElementAt(i);
+                    <tr class="border-b hover:bg-gray-100 transition-all">
+                        <td class="px-6 py-4 text-center">@item.MaNhanVien</td>
+                        <td class="px-6 py-4 text-center">@item.TenNhanVien</td>
+                        <td class="px-6 py-4 text-center">@item.Email</td>
+                        <td class="px-6 py-4 text-center">@item.GioiTinh</td>
+                        <td class="px-6 py-4 text-center">@(item.NgaySinh.HasValue ? item.NgaySinh.Value.ToString("dd/MM/yyyy") : "N/A")</td>
+                        <td class="px-6 py-4 text-center">@item.TenChucVu</td>
+                        <td class="px-6 py-4 text-center">@item.TenPhongBan</td>
+                        <td class="px-6 py-4 text-center">
+                            <a class="btn btn-warning btn-sm text-white hover:bg-yellow-600 transform hover:scale-105 transition-all" href="@Url.Action("Edit", "NhanVien", new { id = item.MaNhanVien })">
+                                <i class="fas fa-edit"></i> Sửa
+                            </a>
+                            <a class="btn btn-info btn-sm text-white hover:bg-blue-600 transform hover:scale-105 transition-all" href="@Url.Action("Details", "NhanVien", new { id = item.MaNhanVien })">
+                                <i class="fas fa-info-circle"></i> Chi tiết
+                            </a>
+                            <a class="btn btn-danger btn-sm text-white hover:bg-red-600 transform hover:scale-105 transition-all" href="@Url.Action("Delete", "NhanVien", new { id = item.MaNhanVien })">
+                                <i class="fas fa-trash"></i> Xoá
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            Swal.fire({
+                icon: "success",
+                title: "<span style='color: #28a745; font-size: 22px; font-weight: bold;'>Thành công!</span>",
+                html: "<p style='text-align: center; font-size: 16px; color: #333;'>" + '@TempData["SuccessMessage"]' + "</p>",
+                confirmButtonColor: "#28a745",
+                confirmButtonText: "OK",
+                width: "400px"
+            });
+        });
+    </script>
+}
+
